@@ -2,7 +2,10 @@ import axios from 'axios'
 import qs from 'qs'
 import Vue from 'vue'
 import store from '../store'
-import {successAlert,warningAlert} from './alert'
+import {
+  successAlert,
+  warningAlert
+} from './alert'
 import router from '../router'
 
 //开发环境下使用
@@ -18,7 +21,7 @@ axios.interceptors.request.use(req => {
   // console.log("---请求拦截----");
   // console.log(req);
   if (req.url != baseUrl + "/api/userlogin") {
-      req.headers.authorization = store.state.userInfo.token;
+    req.headers.authorization = store.state.userInfo.token;
   }
   return req;
 })
@@ -29,11 +32,11 @@ axios.interceptors.response.use(res => {
   console.group("=====本次请求路径是:" + res.config.url)
   console.log(res);
   console.groupEnd()
- 
+
   //用户掉线了
-  if(res.data.msg=='登录已过期或访问权限受限'){
-      warningAlert(res.data.msg)
-      router.push("/login")
+  if (res.data.msg == '登录已过期或访问权限受限') {
+    warningAlert(res.data.msg)
+    router.push("/login")
   }
 
   return res;
@@ -271,23 +274,27 @@ export const reqSpecsDel = (id) => {
   return axios({
     url: baseUrl + '/api/specsdelete',
     method: 'post',
-    data: qs.stringify({id:id})
+    data: qs.stringify({
+      id: id
+    })
   })
 }
 //1条
 export const reqSpecsDetail = (id) => {
   return axios({
-        url:baseUrl+'/api/specsinfo',
-        method:'get',
-        params:{id:id}
+    url: baseUrl + '/api/specsinfo',
+    method: 'get',
+    params: {
+      id: id
+    }
   })
 }
 //修改
-export const reqSpecsUpdate=(params)=>{
+export const reqSpecsUpdate = (params) => {
   return axios({
-    url:baseUrl+'/api/specsedit',
-    method:'post',
-    data:qs.stringify(params)
+    url: baseUrl + '/api/specsedit',
+    method: 'post',
+    data: qs.stringify(params)
   })
 }
 // 分页
@@ -295,15 +302,15 @@ export const reqSpecsList = (params) => {
   return axios({
     url: baseUrl + '/api/specslist',
     method: 'get',
-    params:params
+    params: params
   })
 }
 /************商品管理*****************/
 //添加
 export const reqGoodsAdd = (form) => {
-  let data=new FormData();
-  for(let i in form){
-    data.append(i,form[i])
+  let data = new FormData();
+  for (let i in form) {
+    data.append(i, form[i])
   }
   return axios({
     url: baseUrl + "/api/goodsadd",
@@ -320,31 +327,31 @@ export const reqGoodsCount = () => {
   })
 }
 //删除
-export const reqGoodsDel = (params) => {
+export const reqGoodsDel = (id) => {
   return axios({
     url: baseUrl + '/api/goodsdelete',
     method: 'post',
-    data: qs.stringify(params)
+    data: qs.stringify({id:id})
   })
 }
 //1条
-export const reqGoodsDetail = (params) => {
+export const reqGoodsDetail = (id) => {
   return axios({
-        url:baseUrl+'/api/goodsinfo',
-        method:'get',
-        params:params
+    url: baseUrl + '/api/goodsinfo',
+    method: 'get',
+    params: {id:id}
   })
 }
 //修改
-export const reqGoodsUpdate=(form)=>{
-  let data=new FormData();
-  for(let i in form){
-    data.append(i,form[i])
+export const reqGoodsUpdate = (form) => {
+  let data = new FormData();
+  for (let i in form) {
+    data.append(i, form[i])
   }
   return axios({
-    url:baseUrl+'/api/goodsedit',
-    method:'post',
-    data:data
+    url: baseUrl + '/api/goodsedit',
+    method: 'post',
+    data: data
   })
 }
 // 分页
@@ -352,14 +359,137 @@ export const reqGoodsList = (params) => {
   return axios({
     url: baseUrl + '/api/goodslist',
     method: 'get',
-    params:params
+    params: params
   })
 }
-/***********登录***************/ 
-export const reqLogin=(params)=>{
+/***********登录***************/
+export const reqLogin = (params) => {
   return axios({
-    url:baseUrl+'/api/userlogin',
-    method:'post',
-    data:qs.stringify(params)
+    url: baseUrl + '/api/userlogin',
+    method: 'post',
+    data: qs.stringify(params)
+  })
+}
+/************会员管理****************/
+// 列表
+export const reqMemberList = () => {
+  return axios({
+    url: baseUrl + '/api/memberlist',
+    method: 'get'
+  })
+}
+// 获取
+export const reqMemberDetail = (uid) => {
+  return axios({
+    url: baseUrl + '/api/memberinfo',
+    method: 'get',
+    params: {
+      uid: uid
+    }
+  })
+}
+// 修改
+export const reqMemberUpdate = (params) => {
+  return axios({
+    url: baseUrl + '/api/memberedit',
+    method: 'post',
+    data: qs.stringify(params)
+  })
+}
+/************轮播图管理**************/
+// 添加
+export const reqBannerAdd = (params) => {
+  let data = new FormData();
+  for (let i in params) {
+    data.append(i, params[i])
+  }
+
+  return axios({
+    url: baseUrl + '/api/banneradd',
+    method: 'post',
+    data: data
+  })
+}
+//列表
+export const reqBannerList = () => {
+  return axios({
+    url: baseUrl + '/api/bannerlist',
+    method: 'get'
+  })
+}
+//一条
+export const reqBannerDetail = (id) => {
+  return axios({
+    url: baseUrl + '/api/bannerinfo',
+    method: 'get',
+    params: {
+      id: id
+    }
+  })
+}
+//修改
+export const reqBannerUpdate = (parmas) => {
+  let data = new FormData();
+  for (let i in parmas) {
+    data.append(i, parmas[i])
+  }
+  return axios({
+    url: baseUrl + '/api/banneredit',
+    method: "post",
+    data: data
+  })
+}
+//删除
+export const reqBannerDel = (id) => {
+  return axios({
+    url: baseUrl + '/api/bannerdelete',
+    method: 'post',
+    data: qs.stringify({
+      id: id
+    })
+  })
+}
+/************活动秒杀****************/
+// 添加
+export const reqSeckillAdd = (params) => {
+  return axios({
+    url: baseUrl + '/api/seckadd',
+    method: 'post',
+    data: qs.stringify(params)
+  })
+}
+//列表
+export const reqSeckillList = () => {
+  return axios({
+    url: baseUrl + "/api/secklist",
+    method: 'get'
+  })
+}
+//1条
+export const reqSeckillDetail = (id) => {
+  return axios({
+    url: baseUrl + '/api/seckinfo',
+    method: 'get',
+    params: {
+      id: id
+    },
+  })
+}
+//修改
+export const reqSeckillUpdate = (params) => {
+  return axios({
+    url: baseUrl + '/api/seckedit',
+    method: 'post',
+    data: qs.stringify(params),
+  })
+}
+//删除
+export const reqSeckillDel = (id) => {
+  return axios({
+    url: baseUrl + '/api/seckdelete',
+    method: 'post',
+    data: qs.stringify({
+      id: id
+    })
   })
 }

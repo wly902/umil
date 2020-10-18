@@ -120,7 +120,7 @@
 
         <el-form-item label="商品描述">
           <!-- 富文本 -->
-          <div id="editor" v-if='info.isshow'></div>
+          <div id="editor" v-if="info.isshow"></div>
         </el-form-item>
       </el-form>
 
@@ -306,11 +306,12 @@ export default {
         ...this.form,
         specsattr: JSON.stringify(this.form.specsattr),
       };
-      reqGoodsAdd(data).then((res) => {
+     
+      reqGoodsAdd(data).then((res) => { 
         if (res.data.code == 200) {
-          //成功
+          //成功         
           successAlert(res.data.msg);
-
+        
           //数据重置
           this.empty();
 
@@ -327,6 +328,7 @@ export default {
     },
     //获取菜单详情 （1条）
     look(id) {
+      // console.log(id);
       //发请求
       reqGoodsDetail(id).then((res) => {
         if (res.data.code == 200) {
@@ -349,11 +351,13 @@ export default {
     },
     //修改
     update() {
+      console.log(2);
       this.form.description = this.editor.txt.html();
       let data = {
         ...this.form,
         specsattr: JSON.stringify(this.form.specsattr),
       };
+      console.log(data);
       reqGoodsUpdate(data).then((res) => {
         if (res.data.code == 200) {
           successAlert(res.data.msg);

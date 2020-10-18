@@ -11,7 +11,7 @@ export const mutations = {
 
     //如果info是一个{}，那么代表要退出了，如果不是空{}，那就是登录
     if(info.id){
-      localStorage.setItem('userInfo', JSON.stringify(info))
+      sessionStorage.setItem('userInfo', JSON.stringify(info))
     }else{
       sessionStorage.removeItem('userInfo')
     }
